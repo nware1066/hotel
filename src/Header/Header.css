@@ -1,0 +1,10 @@
+.header-wrapper {
+    text-align: center;
+    background-image: url(../images/hotel.jpg);
+    padding: 3rem;
+}
+
+h1 {
+    font-size: 3rem;
+     color: lightgrey;
+}
