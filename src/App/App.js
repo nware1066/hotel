@@ -1,39 +1,57 @@
 import './App.css';
 import Header from '../Header/Header';
 import {Component} from 'react';
-import getAllFetchedData from '../api.js';
+import fetchBookings from '../api.js';
 import Dashboard from '../Dashboard/Dashboard';
+
+  // let guestBookings;
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      guest: {
-        userName: "Faustino Quitzon",
-        id: 9,
-      },
+      userName: "Faustino Quitzon",
+      id: 9,
+      guestBookings: [],
       bookings: [],
       totalSpent: 0,
-      error: "",
+      error: ""
     };
   }
 
+  
   componentDidMount() {
-    getAllFetchedData()
-      .then((allData) => this.setState({ bookings: allData.bookings }))
+    fetchBookings()
+      // .then((fetchBookings) => console.log('PROMISE >>>>', fetchBookings))
+      .then((fetchedBookings) => this.setState({ bookings: fetchedBookings }))
+      .then((filteredGuestBookings = this.getGuestBookings()) =>
+        this.setState({ guestBookings: filteredGuestBookings })
+      )
       .catch((error) => {
         this.setState({ error: error });
       });
   }
 
+
+  getGuestBookings = () => {
+    let guestBookings = this.state.bookings.filter((booking) => {
+      return booking.userID === this.state.id;
+    });
+    return guestBookings;
+  }
+
   render() {
     return (
       <div className="App">
-        <Header />
-        <Dashboard bookings={this.state.bookings} userID={this.state.guest.id} />
+        <Header name={this.state.userName}/>
+        <Dashboard 
+        guestBookings={this.state.guestBookings}
+        bookings={this.state.bookings}
+        userID={this.state.id} 
+        />
       </div>
-    );
-  }
+    )
+  };
 }
 
 export default App;
