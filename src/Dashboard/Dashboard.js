@@ -3,6 +3,7 @@ import './Dashboard.css';
 function Dashboard(props) {
     console.log(props)
 
+    if (props.guestBookings.length) {
         return (
             <div className="bookings">
                     {props.guestBookings.map((booking) => (
@@ -10,7 +11,11 @@ function Dashboard(props) {
                         ))} 
                </div> 
              )
-                
+        } else {
+                return (
+                    <h1>you have no bookings</h1>
+                )
+            }           
     }
     
 export default Dashboard;
